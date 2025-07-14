@@ -3,59 +3,63 @@
 {% block title %}用户管理{% endblock %}
 
 {% block content %}
-<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">用户列表</h2>
-        <button id="sycGatewayBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-            一键同步GPT网关
-        </button>
-        <button id="addUserBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-            添加用户
-        </button>
+<div class="bg-white shadow-md rounded px-4 sm:px-8 pt-6 pb-8 mb-4">
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">用户列表</h2>
+        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+            <button id="sycGatewayBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full sm:w-auto">
+                一键同步GPT网关
+            </button>
+            <button id="addUserBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full sm:w-auto">
+                添加用户
+            </button>
+        </div>
     </div>
 
-    <!-- 用户列表 -->
-    <table class="min-w-full">
-        <thead>
-            <tr>
-                <th
-                    class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    用户名
-                </th>
-                <th
-                    class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    角色
-                </th>
-                <th
-                    class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    绑定GPT账号
-                </th>
-                <th
-                    class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    GPT过期时间
-                </th>
-                <th
-                    class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    绑定Claude账号
-                </th>
-                <th
-                    class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Claude过期时间
-                </th>
-                <th
-                    class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    操作
-                </th>
-            </tr>
-        </thead>
-        <tbody id="userTableBody">
-            <!-- 用户数据将动态插入这里 -->
-        </tbody>
-    </table>
+    <!-- 用户列表 - 响应式设计 -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead class="hidden sm:table-header-group">
+                <tr>
+                    <th
+                        class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        用户名
+                    </th>
+                    <th
+                        class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        角色
+                    </th>
+                    <th
+                        class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        绑定GPT账号
+                    </th>
+                    <th
+                        class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        GPT过期时间
+                    </th>
+                    <th
+                        class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        绑定Claude账号
+                    </th>
+                    <th
+                        class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Claude过期时间
+                    </th>
+                    <th
+                        class="px-6 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        操作
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- 用户数据将动态插入这里 -->
+            </tbody>
+        </table>
+    </div>
 
     <!-- 用户表单模态框 -->
-    <div id="userModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div id="userModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
             <div class="mt-3">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">用户信息</h3>
                 <form id="userForm">
@@ -105,13 +109,13 @@
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="expirationClaude" type="datetime-local">
                     </div>
-                    <div class="flex items-center justify-end">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-end">
                         <button type="button" onclick="closeModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">
+                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto">
                             取消
                         </button>
                         <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto">
                             保存
                         </button>
                     </div>
@@ -121,8 +125,8 @@
     </div>
 
     <!-- 绑定账号模态框 -->
-    <div id="bindModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div id="bindModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
             <div class="mt-3">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">请选择要绑定的账号</h3>
                 <form id="bindForm">
@@ -139,13 +143,13 @@
                             id="claudeEmail">
                         </select>
                     </div>
-                    <div class="flex items-center justify-end">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-end">
                         <button type="button" onclick="closeBindModal()"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2">
+                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto">
                             取消
                         </button>
                         <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto">
                             保存
                         </button>
                     </div>
@@ -153,8 +157,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 {% endblock %}
 {% block extra_js %}
@@ -182,8 +184,43 @@
         const tbody = document.getElementById('userTableBody');
         tbody.innerHTML = '';
         users.forEach(user => {
+            // 移动端显示卡片样式，桌面端显示表格行
             const tr = document.createElement('tr');
-            tr.innerHTML = `
+            
+            // 移动端卡片视图
+            if (window.innerWidth < 640) {
+                tr.className = 'block border rounded-lg shadow-sm mb-4 p-4 bg-white';
+                tr.innerHTML = `
+                    <div class="mb-2">
+                        <span class="font-bold">用户名:</span> ${user.username}
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-bold">角色:</span> ${user.role}
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-bold">绑定GPT账号:</span> ${user.bind_email || '无'}
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-bold">GPT过期时间:</span> ${user.expiration_time || '无'}
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-bold">绑定Claude账号:</span> ${user.bind_claude_email || '无'}
+                    </div>
+                    <div class="mb-2">
+                        <span class="font-bold">Claude过期时间:</span> ${user.claude_expiration_time || '无'}
+                    </div>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <button onclick="bindChatGPT('${user.id}')" class="text-blue-600 bg-blue-100 hover:bg-blue-200 py-1 px-3 rounded text-sm">绑定GPT</button>
+                        <button onclick="bindClaude('${user.id}')" class="text-blue-600 bg-blue-100 hover:bg-blue-200 py-1 px-3 rounded text-sm">绑定Claude</button>
+                        <button onclick="editUser('${user.id}')" class="text-green-600 bg-green-100 hover:bg-green-200 py-1 px-3 rounded text-sm">编辑</button>
+                        <button onclick="deleteUser('${user.id}')" class="text-red-600 bg-red-100 hover:bg-red-200 py-1 px-3 rounded text-sm">删除</button>
+                        <button onclick="deleteBind('${user.id}')" class="text-red-600 bg-red-100 hover:bg-red-200 py-1 px-3 rounded text-sm">解绑GPT</button>
+                        <button onclick="deleteClaudeBind('${user.id}')" class="text-red-600 bg-red-100 hover:bg-red-200 py-1 px-3 rounded text-sm">解绑Claude</button>
+                    </div>
+                `;
+            } else {
+                // 桌面端表格行视图
+                tr.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap">${user.username}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${user.role}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${user.bind_email}</td>
@@ -191,17 +228,23 @@
                     <td class="px-6 py-4 whitespace-nowrap">${user.bind_claude_email}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${user.claude_expiration_time}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <button onclick="bindChatGPT('${user.id}')" class="text-blue-600 hover:text-blue-900 mr-4">绑定GPT</button>
-                        <button onclick="bindClaude('${user.id}')" class="text-blue-600 hover:text-blue-900 mr-4">绑定Claude</button>
-                        <button onclick="editUser('${user.id}')" class="text-blue-600 hover:text-blue-900 mr-4">编辑</button>
-                        <button onclick="deleteUser('${user.id}')" class="text-red-600 hover:text-red-900">删除</button>
-                        <button onclick="deleteBind('${user.id}')" class="text-red-600 hover:text-red-900">解绑GPT</button>
+                        <button onclick="bindChatGPT('${user.id}')" class="text-blue-600 hover:text-blue-900 mr-2">绑定GPT</button>
+                        <button onclick="bindClaude('${user.id}')" class="text-blue-600 hover:text-blue-900 mr-2">绑定Claude</button>
+                        <button onclick="editUser('${user.id}')" class="text-blue-600 hover:text-blue-900 mr-2">编辑</button>
+                        <button onclick="deleteUser('${user.id}')" class="text-red-600 hover:text-red-900 mr-2">删除</button>
+                        <button onclick="deleteBind('${user.id}')" class="text-red-600 hover:text-red-900 mr-2">解绑GPT</button>
                         <button onclick="deleteClaudeBind('${user.id}')" class="text-red-600 hover:text-red-900">解绑Claude</button>
                     </td>
                 `;
+            }
             tbody.appendChild(tr);
         });
     }
+
+    // 监听窗口尺寸变化，重新渲染用户列表
+    window.addEventListener('resize', function() {
+        renderUsers();
+    });
 
     // 打开用户模态框
     function openModal(user = null) {

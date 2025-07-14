@@ -80,7 +80,7 @@
         {% endwith %}
 
         <!-- 登录表单 -->
-        <form action="{{ url_for('login') }}" method="post" class="space-y-6">
+        <form action="{{ url_for('login') }}" method="post" class="space-y-6" id="loginForm">
             <div>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -88,7 +88,8 @@
                     </div>
                     <input 
                         type="text" 
-                        name="username" 
+                        name="username"
+                        id="username"
                         placeholder="用户名" 
                         required
                         class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-gray-700"
@@ -104,6 +105,7 @@
                     <input 
                         type="password" 
                         name="password" 
+                        id="password"
                         placeholder="密码" 
                         required
                         class="form-input w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-gray-700"
@@ -125,7 +127,8 @@
             <!-- 下拉菜单：选择登录到 GPT 或者 Claude -->
             <div class="relative">
                 <select 
-                    name="login_target" 
+                    name="login_target"
+                    id="login_target"
                     required
                     class="form-input w-full py-3 pl-4 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-gray-700"
                 >
@@ -160,16 +163,24 @@
         // 页面加载时检查并填充保存的用户信息
         window.onload = function() {
             const savedUsername = localStorage.getItem('rememberedUsername');
+            const savedPassword = localStorage.getItem('rememberedPassword');
             const savedLoginTarget = localStorage.getItem('rememberedLoginTarget');
             const rememberMe = localStorage.getItem('rememberMe') === 'true';
             
-            if (savedUsername && rememberMe) {
-                document.getElementById('username').value = savedUsername;
+            if (rememberMe) {
+                if (savedUsername) {
+                    document.getElementById('username').value = savedUsername;
+                }
+                
+                if (savedPassword) {
+                    document.getElementById('password').value = savedPassword;
+                }
+                
+                if (savedLoginTarget) {
+                    document.getElementById('login_target').value = savedLoginTarget;
+                }
+                
                 document.getElementById('remember_me').checked = true;
-            }
-            
-            if (savedLoginTarget && rememberMe) {
-                document.getElementById('login_target').value = savedLoginTarget;
             }
         };
 
@@ -177,14 +188,17 @@
         document.getElementById('loginForm').addEventListener('submit', function() {
             const rememberMe = document.getElementById('remember_me').checked;
             const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             const loginTarget = document.getElementById('login_target').value;
             
             if (rememberMe) {
                 localStorage.setItem('rememberedUsername', username);
+                localStorage.setItem('rememberedPassword', password);
                 localStorage.setItem('rememberedLoginTarget', loginTarget);
                 localStorage.setItem('rememberMe', 'true');
             } else {
                 localStorage.removeItem('rememberedUsername');
+                localStorage.removeItem('rememberedPassword');
                 localStorage.removeItem('rememberedLoginTarget');
                 localStorage.setItem('rememberMe', 'false');
             }

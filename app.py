@@ -2,7 +2,7 @@ from flask import Flask
 import utils.configs as configs
 
 app = Flask(__name__)
-app.secret_key = configs.authorization  # 用于加密 session
+app.secret_key = configs.secret_key  # 用于加密 session
 
 from gateway.index import *
 from gateway.geteway import *
